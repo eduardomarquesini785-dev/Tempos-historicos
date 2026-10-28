@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#551d2d">
+	<title>Tempos Históricos | Uma viagem pela história</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+	<style>
+		:root {
+			color-scheme: dark;
+			--wine: #551d2d;
+			--wine-deep: #35111d;
+			--paper: #f3eadc;
+			--muted: #ccb8b3;
+			--gold: #d3ae70;
+			--line: rgb(243 234 220 / 18%);
+			--serif: "Playfair Display", Georgia, serif;
+			--sans: "DM Sans", sans-serif;
+		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			min-width: 320px;
+			margin: 0;
+			color: var(--paper);
+			background-color: var(--wine);
+			background-image: linear-gradient(115deg, rgb(41 13 22 / 58%), transparent 58%), repeating-linear-gradient(90deg, transparent 0 79px, rgb(255 255 255 / 2%) 80px 81px);
+			font-family: var(--sans);
+		}
+		button, a { color: inherit; font: inherit; }
+		a { text-decoration: none; }
+		button { cursor: pointer; }
+		.page-shell { width: min(1180px, calc(100% - 64px)); margin: 0 auto; }
+		.topbar { height: 78px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+		.brand { display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+		.brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border: 1px solid var(--gold); color: var(--gold); font-family: var(--serif); font-size: 17px; }
+		.topbar nav { display: flex; gap: 28px; color: var(--muted); font-size: 12px; }
+		.topbar nav a:hover, .topbar nav a:focus-visible { color: var(--paper); }
+		.edition { color: var(--gold); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; }
+		.intro { padding: 66px 0 42px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; }
+		.eyebrow { margin: 0 0 14px; color: var(--gold); font-size: 10px; font-weight: 700; letter-spacing: .19em; text-transform: uppercase; }
+		h1 { max-width: 680px; margin: 0; font-family: var(--serif); font-size: clamp(42px, 6vw, 76px); font-weight: 500; line-height: 1.02; }
+		.intro-note { max-width: 245px; margin: 0 0 5px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+		.era-nav { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+		.era-button { min-height: 76px; padding: 13px 16px; position: relative; display: flex; flex-direction: column; justify-content: center; gap: 5px; border: 0; border-right: 1px solid var(--line); background: transparent; text-align: left; transition: background-color .2s ease; }
+		.era-button:last-child { border-right: 0; }
+		.era-button:hover { background: rgb(255 255 255 / 5%); }
+		.era-button[aria-pressed="true"] { background: rgb(211 174 112 / 10%); }
+		.era-button[aria-pressed="true"]::before { content: ""; position: absolute; inset: -1px 0 auto; height: 2px; background: var(--gold); }
+		.era-button span:first-child { font-family: var(--serif); font-size: 16px; }
+		.era-button span:last-child { color: var(--muted); font-size: 10px; }
+		.period { padding: 44px 0 70px; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); gap: clamp(34px, 7vw, 90px); align-items: center; }
+		.period-copy { animation: appear .35s ease both; }
+		.period-index { display: flex; align-items: center; gap: 13px; margin-bottom: 16px; color: var(--gold); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+		.period-index::after { content: ""; width: 38px; height: 1px; background: var(--gold); }
+		h2 { margin: 0; font-family: var(--serif); font-size: clamp(38px, 5vw, 60px); font-weight: 500; line-height: 1.08; }
+		.dates { margin: 12px 0 25px; color: var(--gold); font-size: 12px; font-weight: 600; }
+		.summary { max-width: 560px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.85; }
+		.highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--line); }
+		.highlight-label { display: block; margin-bottom: 9px; color: var(--gold); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+		.highlight-value { color: var(--paper); font-family: var(--serif); font-size: 17px; line-height: 1.4; }
+		.visual { position: relative; min-height: 370px; aspect-ratio: 1.04 / 1; margin: 0; overflow: hidden; background: var(--wine-deep); animation: appear .45s ease both; }
+		.visual img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; filter: saturate(.72); opacity: .84; }
+		.visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgb(33 10 17 / 82%)), linear-gradient(90deg, rgb(53 17 29 / 14%), transparent); }
+		.visual-caption { position: absolute; z-index: 1; right: 23px; bottom: 22px; left: 23px; display: flex; justify-content: space-between; align-items: end; gap: 14px; }
+		.visual-caption strong { max-width: 250px; font-family: var(--serif); font-size: 21px; font-weight: 500; }
+		.visual-caption span { color: var(--muted); font-size: 10px; text-align: right; }
+		.visual-number { position: absolute; z-index: 1; top: 20px; left: 22px; color: var(--paper); font-family: var(--serif); font-size: 12px; letter-spacing: .1em; }
+		.timeline-footer { padding: 21px 0 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
+		.timeline-footer strong { color: var(--paper); font-weight: 500; }
+		.timeline-track { display: flex; align-items: center; gap: 9px; }
+		.track-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+		footer { padding: 12px 0 24px; color: rgb(203 182 178 / 68%); font-size: 10px; }
+		@keyframes appear { from { opacity: .4; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+		@media (max-width: 760px) {
+			.page-shell { width: min(100% - 36px, 600px); }
+			.topbar { height: 68px; }
+			.topbar nav { display: none; }
+			.intro { padding: 48px 0 30px; grid-template-columns: 1fr; gap: 18px; }
+			.intro-note { max-width: 410px; }
+			.era-nav { grid-template-columns: repeat(5, minmax(108px, 1fr)); overflow-x: auto; }
+			.era-button { min-height: 70px; padding: 11px 12px; }
+			.era-button span:first-child { font-size: 15px; }
+			.period { padding: 33px 0 46px; grid-template-columns: 1fr; gap: 28px; }
+			.visual { min-height: 290px; aspect-ratio: 1.25 / 1; }
+			.timeline-footer { align-items: flex-start; gap: 14px; }
+			.timeline-track { display: none; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+		}
+	</style>
+</head>
+<body>
+	<header class="page-shell topbar">
+		<a class="brand" href="#inicio" aria-label="Tempos Históricos, início"><span class="brand-mark">T</span><span>Tempos Históricos</span></a>
+		<nav aria-label="Navegação principal"><a href="#periodos">Períodos</a><a href="#linha-do-tempo">Linha do tempo</a></nav>
+		<span class="edition">Atlas da humanidade · 01</span>
+	</header>
+
+	<main id="inicio" class="page-shell">
+		<section class="intro" aria-labelledby="page-title">
+			<div><p class="eyebrow">Uma viagem pela história</p><h1 id="page-title">O tempo transforma tudo.</h1></div>
+			<p class="intro-note">Explore os grandes períodos que moldaram as sociedades, as ideias e o mundo em que vivemos.</p>
+		</section>
+
+		<section id="periodos" aria-label="Selecione um período histórico">
+			<div class="era-nav" role="group" aria-label="Períodos históricos">
+				<button class="era-button" type="button" data-era="0" aria-pressed="true"><span>Pré-história</span><span>até c. 3.500 a.C.</span></button>
+				<button class="era-button" type="button" data-era="1" aria-pressed="false"><span>Antiguidade</span><span>c. 3.500 a.C. – 476</span></button>
+				<button class="era-button" type="button" data-era="2" aria-pressed="false"><span>Idade Média</span><span>476 – 1453</span></button>
+				<button class="era-button" type="button" data-era="3" aria-pressed="false"><span>Idade Moderna</span><span>1453 – 1789</span></button>
+				<button class="era-button" type="button" data-era="4" aria-pressed="false"><span>Contemporânea</span><span>1789 – hoje</span></button>
+			</div>
+		</section>
+
+		<section class="period" aria-live="polite" aria-atomic="true">
+			<div class="period-copy" id="period-copy">
+				<div class="period-index"><span id="period-index">Período 01</span></div>
+				<h2 id="period-title">Pré-história</h2>
+				<p class="dates" id="period-dates">Da origem humana à invenção da escrita · até c. 3.500 a.C.</p>
+				<p class="summary" id="period-summary">Muito antes dos registros escritos, diferentes grupos humanos aprenderam a fabricar ferramentas, dominar o fogo e compreender os ciclos da natureza. A agricultura e a vida em comunidades abriram caminho para as primeiras cidades.</p>
+				<div class="highlights">
+					<div><span class="highlight-label">Marco decisivo</span><span class="highlight-value" id="period-mark">Agricultura e vida sedentária</span></div>
+					<div><span class="highlight-label">Legado</span><span class="highlight-value" id="period-legacy">As primeiras comunidades</span></div>
+				</div>
+			</div>
+			<figure class="visual" id="period-visual">
+				<span class="visual-number" id="visual-number">01 / 05</span>
+				<img id="period-image" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="Paisagem natural que evoca os primeiros ambientes humanos">
+				<figcaption class="visual-caption"><strong id="image-caption">As primeiras jornadas</strong><span id="image-credit">Paisagens da pré-história</span></figcaption>
+			</figure>
+		</section>
+
+		<div class="timeline-footer" id="linha-do-tempo"><span><strong>Uma história em movimento</strong> · cinco períodos, muitas transformações</span><span class="timeline-track" aria-hidden="true"><i class="track-dot"></i> passado <span>→</span> presente</span></div>
+	</main>
+	<footer class="page-shell">Uma introdução aos períodos históricos · datas aproximadas, sujeitas a diferentes interpretações historiográficas.</footer>
+
+	<script>
+		const eras = [
+			{
+				title: "Pré-história",
+				dates: "Da origem humana à invenção da escrita · até c. 3.500 a.C.",
+				summary: "Muito antes dos registros escritos, diferentes grupos humanos aprenderam a fabricar ferramentas, dominar o fogo e compreender os ciclos da natureza. A agricultura e a vida em comunidades abriram caminho para as primeiras cidades.",
+				mark: "Agricultura e vida sedentária", legacy: "As primeiras comunidades",
+				caption: "As primeiras jornadas", credit: "Paisagens da pré-história",
+				alt: "Paisagem natural que evoca os primeiros ambientes humanos",
+				image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85"
+			},
+			{
+				title: "Antiguidade",
+				dates: "Da escrita à queda do Império Romano do Ocidente · c. 3.500 a.C. – 476",
+				summary: "Às margens de grandes rios e ao redor do Mediterrâneo, surgiram cidades, Estados e impérios. Egípcios, mesopotâmicos, gregos e romanos desenvolveram sistemas de escrita, leis, conhecimentos científicos e formas de governo que ainda estudamos.",
+				mark: "Escrita, cidades e leis", legacy: "Filosofia e vida urbana",
+				caption: "Cidades que atravessaram séculos", credit: "Arquitetura da Antiguidade",
+				alt: "Ruínas monumentais de uma cidade antiga",
+				image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1200&q=85"
+			},
+			{
+				title: "Idade Média",
+				dates: "Da queda de Roma à tomada de Constantinopla · 476 – 1453",
+				summary: "A Europa medieval foi marcada por reinos, relações feudais e forte influência religiosa, enquanto centros de conhecimento floresciam também no mundo islâmico, na África e na Ásia. Rotas comerciais conectavam povos e difundiam ideias, técnicas e produtos.",
+				mark: "Reinos, fé e rotas comerciais", legacy: "Universidades e intercâmbios culturais",
+				caption: "Pedra, fé e conhecimento", credit: "Arquitetura medieval",
+				alt: "Construção histórica de pedra em uma paisagem medieval",
+				image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=85"
+			},
+			{
+				title: "Idade Moderna",
+				dates: "Da tomada de Constantinopla à Revolução Francesa · 1453 – 1789",
+				summary: "Navegações oceânicas aproximaram continentes, mas também intensificaram a colonização e a escravização. O Renascimento, a Revolução Científica e o Iluminismo questionaram antigas certezas e redefiniram as relações entre conhecimento, poder e sociedade.",
+				mark: "Navegações e ciência moderna", legacy: "Novas visões de mundo",
+				caption: "O mundo se conecta", credit: "Horizontes da era moderna",
+				alt: "Horizonte amplo evocando as grandes navegações",
+				image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85"
+			},
+			{
+				title: "Idade Contemporânea",
+				dates: "Da Revolução Francesa aos dias atuais · 1789 – hoje",
+				summary: "Revoluções políticas e industriais mudaram o trabalho, os direitos e a vida cotidiana. Nos séculos seguintes, movimentos sociais, guerras mundiais, avanços científicos e tecnologias digitais transformaram profundamente a escala das conexões humanas.",
+				mark: "Indústria e direitos civis", legacy: "Um mundo interconectado",
+				caption: "Transformações em escala global", credit: "Paisagem contemporânea",
+				alt: "Paisagem urbana contemporânea ao entardecer",
+				image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1200&q=85"
+			}
+		];
+
+		const buttons = [...document.querySelectorAll(".era-button")];
+		const image = document.querySelector("#period-image");
+		const copy = document.querySelector("#period-copy");
+
+		function selectEra(index) {
+			const era = eras[index];
+			buttons.forEach((button, buttonIndex) => {
+				button.setAttribute("aria-pressed", String(buttonIndex === index));
+			});
+			document.querySelector("#period-index").textContent = `Período ${String(index + 1).padStart(2, "0")}`;
+			document.querySelector("#period-title").textContent = era.title;
+			document.querySelector("#period-dates").textContent = era.dates;
+			document.querySelector("#period-summary").textContent = era.summary;
+			document.querySelector("#period-mark").textContent = era.mark;
+			document.querySelector("#period-legacy").textContent = era.legacy;
+			document.querySelector("#image-caption").textContent = era.caption;
+			document.querySelector("#image-credit").textContent = era.credit;
+			document.querySelector("#visual-number").textContent = `${String(index + 1).padStart(2, "0")} / 05`;
+			image.alt = era.alt;
+			image.src = era.image;
+			copy.animate([{ opacity: .45, transform: "translateY(7px)" }, { opacity: 1, transform: "translateY(0)" }], { duration: 300, easing: "ease-out" });
+		}
+
+		buttons.forEach((button) => {
+			button.addEventListener("click", () => selectEra(Number(button.dataset.era)));
+		});
+	</script>
+</body>
+</html>
